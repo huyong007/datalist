@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>a page about todo list</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+</head>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-1">
+                <div class="btn-group-vertial" role="group" v-for="item in menus">
+                    <button type="button" class="btn btn-secondary" v-on:click='onSelected(item.tag)'>{{item.text}}</button>
+                </div>
+            </div>
+            <div class="col-md-6 mt-5" v-if='currentMenuTag==="working"'>
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start " v-if='!item.completed' v-for='item in tasks'>
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ item.title }}</h5>
+                            <small>{{ item.createAt }}</small>
+                        </div>
+                        <p class="mb-1">{{ item.content }}</p>
+                        <small v-if="item.completed">已经完成</small>
+                        <div class='float-right' v-else>
+                            <button class="btn btn-primary btn-ms" v-on:click="onCompleted">完成</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6 mt-5" v-else>
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start " v-if='item.completed' v-for='item in tasks'>
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ item.title }}</h5>
+                            <small>{{ item.createAt }}</small>
+                        </div>
+                        <p class="mb-1">{{ item.content }}</p>
+                        <small v-if="item.completed">已经完成</small>
+                        <div class='float-right' v-else>
+                            <button class="btn btn-primary btn-ms" v-on:click="onCompleted">完成</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+
+<script>
+    var tasks = function () {
+        let tasks = [];
+        for (let i = 0; i < 10; i++) {
+            tasks.push({
+                title: 'task' + (i + 1),
+                content: 'content' + (i + 1),
+                completed: false,
+                createAt: (new Date()).toString()
+            })
+        };
+        console.log(tasks);
+
+        return tasks;
+    }();
+    new Vue({
+        el: '#app',
+        data: {
+            menus: [{ tag: 'working', text: '未完成' }, { tag: 'completed', text: '已完成' }],
+            currentMenuTag: 'working',
+            tasks: tasks
+        },
+        methods: {
+            onSelected(tag) {
+                this.currentMenuTag = tag;
+
+            },
+            onCompleted: function () {
+                console.log('=====');
+            }
+        }
+    })
+
+</script>
+
+</html>
